@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,9 +17,13 @@ import javax.swing.border.Border;
 
 public class Interfejs {
 
+	JButton zaloguj;
+	 JButton zarejestruj;
+	 JFrame ramkainterfejs;
+	
 	Interfejs()
 	{
-		JFrame ramkainterfejs=new JFrame();
+		 ramkainterfejs=new JFrame();
 		ramkainterfejs.setMinimumSize(new Dimension(400, 350));
 		JPanel pramkainterfejs=new JPanel(new GridLayout());
 		pramkainterfejs.setBackground(Color.DARK_GRAY);
@@ -27,20 +33,15 @@ public class Interfejs {
 		powitanie.setBorder(margines);
 		powitanie.setFont(new Font("TimesRoman", Font.PLAIN, 30));
 		powitanie.setForeground(Color.GREEN);
-		JButton zaloguj=new JButton("zaloguj");
-		JButton zarejestruj=new JButton("Zarejestruj");
+		zaloguj=new JButton("zaloguj");
+		zarejestruj=new JButton("Zarejestruj");
 		ImageIcon ikonkaobrazek = new ImageIcon("C:/ProjektyJava/TesterAlergii/obrazki/kciuk.jpg");
 		Image obrazeki=ikonkaobrazek.getImage();
 		Image nowyobrazek=obrazeki.getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 		ImageIcon gotowy=new ImageIcon(nowyobrazek);
 		JLabel obrazek=new JLabel(gotowy);
 		
-		
-		
-		
-		
-		
-		
+
 		napisgora.add(powitanie);
 		pramkainterfejs.add(zaloguj);
 		pramkainterfejs.add(zarejestruj);
@@ -50,11 +51,13 @@ public class Interfejs {
 		ramkainterfejs.add(pramkainterfejs,BorderLayout.CENTER);
 		ramkainterfejs.add(obrazek,BorderLayout.SOUTH);
 		
-		
+	
 		
 	
 		ramkainterfejs.setVisible(true);
 	}
+	
+	
 	
 	
 	

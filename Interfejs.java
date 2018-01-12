@@ -24,7 +24,9 @@ public class Interfejs {
 	Interfejs()
 	{
 		 ramkainterfejs=new JFrame();
-		ramkainterfejs.setMinimumSize(new Dimension(400, 350));
+		 ramkainterfejs.setMinimumSize(new Dimension(400, 350));
+		 ramkainterfejs.pack();
+		 ramkainterfejs.setLocationRelativeTo(null);
 		JPanel pramkainterfejs=new JPanel(new GridLayout());
 		pramkainterfejs.setBackground(Color.DARK_GRAY);
 		JPanel napisgora=new JPanel(new BorderLayout());

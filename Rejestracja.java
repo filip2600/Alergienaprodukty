@@ -17,20 +17,21 @@ public class Rejestracja {
    
 	//Na co alergia
 	//dodaje do bazy 
+	JFrame ramkarejestracja;
 	JButton ok;
 	static Connection c=null;
 	JTextField login;
 	JTextField haslo;
 	Rejestracja()
 	{
-		JFrame ramkarejestracja=new JFrame();
+		ramkarejestracja=new JFrame();
 		ramkarejestracja.setMinimumSize(new Dimension(400, 150));
 		ramkarejestracja.pack();
 		ramkarejestracja.setLocationRelativeTo(null);
 		JPanel ramkarejestracjapanel=new JPanel(new GridLayout(3,2,2,2));
 		JLabel loginnapis=new JLabel("LOGIN: ");
 		JLabel haslonapis=new JLabel("HASLO: ");
-		ok=new JButton("ok");
+		ok=new JButton("Rejestruj !");
 		
 		
 		login=new JTextField();
@@ -45,7 +46,6 @@ public class Rejestracja {
 		ramkarejestracjapanel.add(login);
 		ramkarejestracjapanel.add(haslonapis);
 		ramkarejestracjapanel.add(haslo);
-        //ramkarejestracjapanel.add(ok);
 		
 		//https://stackoverflow.com/questions/2510159/can-i-add-a-component-to-a-specific-grid-cell-when-a-gridlayout-is-used
 		
@@ -76,9 +76,11 @@ public class Rejestracja {
 					System.out.println("Taki login juz jest");
 				}
 				else if(spr==0)
-				{
-					System.out.println("udalo sie");
+				{		
 					dodaj();
+					System.out.println("rejestracja przebiegla pomyslnie !");
+					ramkarejestracja.dispose();
+					
 				}
 				
 				

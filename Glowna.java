@@ -6,11 +6,14 @@ import java.awt.event.ActionListener;
 public class Glowna {
 	static Interfejs interfejs;
 	static Rejestracja rejestracja;
+	static Logowanie logowanie;
+	
 	public static void main(String[] args) {
 		
 		//1.Interfejs poczatkowy 
 		interfejs=new Interfejs();
 		ustawakcje();
+		
 		
 		//2.Logowanie  po zalogowaniu przechodzi do wyszukiwarki produktow i pojawia sie mozliwosc wyloguj ktora wraca do poczatku
 		
@@ -22,7 +25,7 @@ public class Glowna {
 	  interfejs.zaloguj.addActionListener(new ActionListener() {	
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			logowanie=new Logowanie();
 			
 			
          
@@ -35,7 +38,7 @@ public class Glowna {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			rejestracja=new Rejestracja();
-			interfejs.ramkainterfejs.dispose();
+			
 			
 		}
 	});

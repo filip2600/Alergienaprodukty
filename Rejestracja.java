@@ -70,12 +70,11 @@ public class Rejestracja {
 				
 				
 				polaczenie();
-				int spr=czyjuzjest();
-				if(spr==1)
+				if(czyjuzjest()==1)
 				{
 					System.out.println("Taki login juz jest");
 				}
-				else if(spr==0)
+				else if(czyjuzjest()==0)
 				{		
 					dodaj();
 					System.out.println("rejestracja przebiegla pomyslnie !");

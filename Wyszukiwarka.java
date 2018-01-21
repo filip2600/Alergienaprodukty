@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -9,17 +10,28 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class Wyszukiwarka {
-//Napis zalogowano jako
 //Na gorze pasek z wyszukwianiem
-//Po lewo opcja dodania alergi
+//gdy zostanie cos wpisane w wyszukiwarke zacznij
+//przeszukiwac baze
+//wykorzystaj like z sql
 //Potrzebne jset stale polaczenie z baza w tym oknie
 	
 	static Connection c=null;
@@ -30,6 +42,11 @@ public class Wyszukiwarka {
 	JButton[] dodaj;
 	JTextField[] alergienr;
 	static int zmiennanralergi=0;
+	JTable tabela;
+	DefaultTableModel model;
+	List<String> a;
+	JFrame ramkazobrazkiem;
+	
 	
 	
 	
@@ -46,22 +63,78 @@ public class Wyszukiwarka {
 		wyszukiwarka=new JTextField();
 		dodajalergie=new JButton("Dodaj alergie");
 		ramkawpanel.add(wyszukiwarka,BorderLayout.NORTH);
-		
+		model=new DefaultTableModel();
+		tabela=new JTable(model);
+		model.addColumn("Produkty");
+		ramkawpanel.add(tabela,BorderLayout.CENTER);
+		a = new ArrayList<String>();
+	
 		
 		
 		ramkawyszukiwarka.add(ramkawpanel);
 		ramkawyszukiwarka.add(napislogin,BorderLayout.NORTH);
 		ramkawyszukiwarka.add(dodajalergie,BorderLayout.EAST);
-		
+		ramkazobrazkiem=new JFrame();
 		
 		
 		ramkawyszukiwarka.setVisible(true);
 		dodajalergiea();
 		polaczbaza();
+		wyszukiwarkaa();
+		kliktabela();
 		
 		
 		
 	}
+	
+	void kliktabela()
+	{ListSelectionModel lm=tabela.getSelectionModel();
+	lm.addListSelectionListener(new ListSelectionListener() {
+		
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if(! lm.isSelectionEmpty())
+			{
+				if(e.getValueIsAdjusting()==false)
+				{
+				int wybrany=lm.getMinSelectionIndex();
+				String value = tabela.getModel().getValueAt(wybrany,0).toString();
+				System.out.println(value);
+				obrazekznapisem(value);
+				}
+			}
+			
+		}
+	});
+		
+	}
+	
+	void wyszukiwarkaa()
+	{
+	
+		wyszukiwarka.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// Pusta
+			
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				
+				szukanie();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			//Pusta
+				
+			}
+		});
+		
+	}
+	
 	void dodajalergiea()
 	{
 		dodajalergie.addActionListener(new ActionListener() {
@@ -178,7 +251,7 @@ dodaj[4].addActionListener(new ActionListener() {
 	{
 		int czyjest=0;
 		
-		//sprawdzenie czy juz jest
+
 		try {
 			String query="Select * from Alergie where alergia1=? or alergia2=? or alergia3=? or alergia4=? or alergia5=? ";
 			PreparedStatement ps;
@@ -201,7 +274,7 @@ dodaj[4].addActionListener(new ActionListener() {
 		
 		System.out.println(ktorynr);
 		
-		//moze w petli ?
+		//dodawanie alergii
 		if(czyjest==0)
 		{
 			for(int i=0;i<5;i++)
@@ -227,6 +300,118 @@ dodaj[4].addActionListener(new ActionListener() {
 		
 		
 		}
+	}
+	
+	void szukanie()
+	{
+		//zrobic klikniecie na row w tabeli
+		model.setRowCount(0);
+		
+		try {
+			String wyszukiwarkatekst=wyszukiwarka.getText();
+			String query="SELECT * from Produkty where Zawartosc1 LIKE ? or Zawartosc2 Like ? or Zawartosc3 Like ?"
+					+ "or Zawartosc4 Like ? or Zawartosc5 Like ? or Zawartosc6 Like ?";
+			PreparedStatement ps;
+			ps=c.prepareStatement(query);
+			ps.setString(1,wyszukiwarkatekst+"%");
+			ps.setString(2,wyszukiwarkatekst+"%");
+			ps.setString(3,wyszukiwarkatekst+"%");
+			ps.setString(4,wyszukiwarkatekst+"%");
+			ps.setString(5,wyszukiwarkatekst+"%");
+			ps.setString(6,wyszukiwarkatekst+"%");
+			ResultSet odp=ps.executeQuery();
+			while(odp.next())
+			{	
+					model.addRow(new Object[] {odp.getString(1)});
+				System.out.println(odp.getString(1));
+				a.add(odp.getString(1));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	
+	void obrazekznapisem(String wybrany)
+	{
+		String gdzieszukac="";
+		if(ramkazobrazkiem.isVisible())
+		{
+		ramkazobrazkiem.dispose();
+		}
+		ramkazobrazkiem=new JFrame();
+		ramkazobrazkiem.setMinimumSize(new Dimension(150,300));
+		ramkazobrazkiem.move(1460, 500);
+		
+		
+		DefaultTableModel zawieramodel=new DefaultTableModel();
+		zawieramodel.addColumn("Zawiera");
+		JTable zawiera=new JTable(zawieramodel);
+		
+		
+		
+		
+		
+		
+		
+		
+		//Pokaze sie nowa ramka i tam doda obrazki a pod w tabeli wszystkie alergiez bazy
+		//wyswietla obrazek a pod nim co zawiera
+		if(wybrany.contains("Pieczywo bia³e"))
+		{
+			ImageIcon ikonkaobrazek = new ImageIcon("C:/ProjektyJava/TesterAlergii/obrazki/pieczywo.jpg");
+			Image obrazeki=ikonkaobrazek.getImage();
+			Image nowyobrazek=obrazeki.getScaledInstance(150,110, Image.SCALE_SMOOTH);
+			ImageIcon gotowy=new ImageIcon(nowyobrazek);
+			JLabel obrazek=new JLabel(gotowy);
+			
+			ramkazobrazkiem.add(obrazek,BorderLayout.NORTH);
+			gdzieszukac="Pieczywo bia³e";
+			
+			
+			
+		}
+		if(wybrany.contains("Sernik"))
+		{
+			ImageIcon ikonkaobrazek = new ImageIcon("C:/ProjektyJava/TesterAlergii/obrazki/sernik.jpg");
+			Image obrazeki=ikonkaobrazek.getImage();
+			Image nowyobrazek=obrazeki.getScaledInstance(150,110, Image.SCALE_SMOOTH);
+			ImageIcon gotowy=new ImageIcon(nowyobrazek);
+			JLabel obrazek=new JLabel(gotowy);
+			
+			ramkazobrazkiem.add(obrazek,BorderLayout.NORTH);
+			gdzieszukac="Sernik";
+			
+		}
+		
+		
+		try {
+			String query="Select * from Produkty where Nazwa =?";
+			PreparedStatement ps;		
+			ps=c.prepareStatement(query);
+			ps.setString(1,gdzieszukac);
+			ResultSet odp=ps.executeQuery();
+			while(odp.next())
+			{
+				zawieramodel.addRow(new Object[] {odp.getString(2)});
+				zawieramodel.addRow(new Object[] {odp.getString(3)});
+				zawieramodel.addRow(new Object[] {odp.getString(4)});
+				zawieramodel.addRow(new Object[] {odp.getString(5)});
+				zawieramodel.addRow(new Object[] {odp.getString(6)});
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ramkazobrazkiem.add(zawiera,BorderLayout.SOUTH);
+		ramkazobrazkiem.show();
+		
+		
 	}
 	
 	

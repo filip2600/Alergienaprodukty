@@ -134,7 +134,7 @@ public class Logowanie {
 		
 		return zalogowanie;
 		
-		
+		//zawieramodel.addRow(new Object[] {odp.getString(1)});
 		
 	}
 	

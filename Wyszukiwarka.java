@@ -28,11 +28,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class Wyszukiwarka {
-//Na gorze pasek z wyszukwianiem
-//gdy zostanie cos wpisane w wyszukiwarke zacznij
-//przeszukiwac baze
-//wykorzystaj like z sql
-//Potrzebne jset stale polaczenie z baza w tym oknie
+
 	
 	static Connection c=null;
 	JFrame ramkawyszukiwarka;
@@ -152,7 +148,7 @@ public class Wyszukiwarka {
 	}
 	void okienkododajalergie()
 	{
-		//Co gdy jest juz uzupelnione ?
+		
 		JFrame mokienkoalergie=new JFrame();
 		mokienkoalergie.setMinimumSize(new Dimension(280,450));
 		mokienkoalergie.pack();
@@ -274,7 +270,7 @@ dodaj[4].addActionListener(new ActionListener() {
 		
 		System.out.println(ktorynr);
 		
-		//dodawanie alergii
+	
 		if(czyjest==0)
 		{
 			for(int i=0;i<5;i++)
@@ -283,11 +279,8 @@ dodaj[4].addActionListener(new ActionListener() {
 				{
 					
 					try {
-						String query=String.format("UPDATE Alergie set %s=? where login=?","alergia"+(ktorynr+1) );
-						//System.out.println(string);
-						//String query="UPDATE Alergie set alergia1=? where login=?";
+						String query=String.format("UPDATE Alergie set %s=? where login=?","alergia"+(ktorynr+1) );					
 						PreparedStatement ps=c.prepareStatement(query);
-						//ps.setString(1,"Alergia"+ktorynr+1);
 						ps.setString(1,alergienr[ktorynr].getText());
 						ps.setString(2,uzytkownik);
 						ps.executeUpdate();
@@ -304,7 +297,7 @@ dodaj[4].addActionListener(new ActionListener() {
 	
 	void szukanie()
 	{
-		//zrobic klikniecie na row w tabeli
+		
 		model.setRowCount(0);
 		
 		try {
@@ -360,8 +353,6 @@ dodaj[4].addActionListener(new ActionListener() {
 		
 		
 		
-		//Pokaze sie nowa ramka i tam doda obrazki a pod w tabeli wszystkie alergiez bazy
-		//wyswietla obrazek a pod nim co zawiera
 		if(wybrany.contains("Pieczywo bia³e"))
 		{
 			ImageIcon ikonkaobrazek = new ImageIcon("C:/ProjektyJava/TesterAlergii/obrazki/pieczywo.jpg");

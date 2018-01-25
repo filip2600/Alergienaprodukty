@@ -14,9 +14,6 @@ import java.sql.*;
 import javax.swing.*;
 
 public class Rejestracja {
-   
-	//Na co alergia
-	//dodaje do bazy 
 	JFrame ramkarejestracja;
 	JButton ok;
 	static Connection c=null;
@@ -36,19 +33,11 @@ public class Rejestracja {
 		
 		login=new JTextField();
 		haslo=new JTextField();
-		
-		//po podaniu tego wyswietla sie kolejna strona w ktorej podaje sie
-		//alergie osobno lub wybiera z przewijanej listy
-		
-		
-		
 		ramkarejestracjapanel.add(loginnapis);
 		ramkarejestracjapanel.add(login);
 		ramkarejestracjapanel.add(haslonapis);
 		ramkarejestracjapanel.add(haslo);
-		
-		//https://stackoverflow.com/questions/2510159/can-i-add-a-component-to-a-specific-grid-cell-when-a-gridlayout-is-used
-		
+
 		ramkarejestracja.add(ramkarejestracjapanel);
 		ramkarejestracja.add(ok,BorderLayout.SOUTH);
 		ramkarejestracja.setVisible(true);
@@ -65,10 +54,7 @@ public class Rejestracja {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Dodaje do bazy 
-          
-				
-				
+
 				polaczenie();
 				if(czyjuzjest()==1)
 				{

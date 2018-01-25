@@ -16,10 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Logowanie {
-
-	//sprawdza tu dane z bazy jezeli sie zgadza to wchodzi i pokazuje komunikat poprawnie zalogowano
-	// jesli nie to komunikat bledu
-	//
 	Wyszukiwarka w;
 	JFrame ramkalogowanie;
 	JButton ok;
@@ -59,9 +55,6 @@ public class Logowanie {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//podaje dane
-				//sprawdza w bazie czy haslo z loginem sie zgadzaja
-				//gdy sie zgadzaja przechodzi do menu gdzie bedzie opcja dodania alergii i szukania
 				polaczenie();
 				if(logowanie()==1)
 				{
@@ -83,10 +76,6 @@ public class Logowanie {
 					
 					
 				}
-				
-				
-				//String query="Select * from Alergie where Login=? and Haslo=?";
-				//PreparedStatement ps=c.
 				
 				
 				
@@ -134,7 +123,7 @@ public class Logowanie {
 		
 		return zalogowanie;
 		
-		//zawieramodel.addRow(new Object[] {odp.getString(1)});
+		
 		
 	}
 	
